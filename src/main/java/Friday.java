@@ -17,7 +17,7 @@ public class Friday {
             if (input.toLowerCase().equals("bye")) {
                 break;
             } else if (input.toLowerCase().equals("list")) {
-                System.out.println("Here are your tasks: ");
+                System.out.println("Here are your tasks:");
                 for (int i = 0; i < tasks.size(); i++) {
                     System.out.println((i + 1) + ". " + tasks.get(i));
                 }
@@ -74,7 +74,7 @@ public class Friday {
                     continue;
                 }
                 tasks.add(task);
-                System.out.println("Got it. I've added this task: ");
+                System.out.println("Got it. I've added this task:");
                 System.out.println(task);
                 System.out.println("Now you have " + tasks.size() + " task(s) in the list.");
             }

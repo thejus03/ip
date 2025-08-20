@@ -1,0 +1,11 @@
+deadline cs1101s slides /by Friday
+list
+mark 1
+event meeting for project /from Monday 2pm /to 4pm
+list
+todo read a book
+unmark 2
+list
+mark 3
+unmark 1
+bye
