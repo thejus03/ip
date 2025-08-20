@@ -56,31 +56,54 @@ public class Friday {
                     System.out.println("Please enter a valid task number.");
                 }
 
+            } else if (input.contains("delete")) {
+                String[] parts = input.split(" ");
+                if (parts.length < 2) {
+                    System.out.println("Please specify the task number to delete.");
+                    continue;
+                }
+                try {
+                    int taskNumber = Integer.parseInt(parts[1]) - 1;
+                    if (taskNumber < 0 || taskNumber >= tasks.size()) {
+                        System.out.println("Ah... This task number does not exist!");
+                    } else {
+                        Task removedTask = tasks.remove(taskNumber);
+                        System.out.println("Noted. I've removed this task: " + removedTask);
+                        System.out.println("Now you have " + tasks.size() + " task(s) in the list.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Please enter a valid task number.");
+                }
             } else {
                 String[] parts = input.split(" ", 2);
                 Task task;
                 if (parts.length < 2) {
                     System.out.println("Please provide a valid task description.");
                     continue;
-                } else if (parts[0].equals("todo")) {
-                    task = new ToDo(parts[1]);
-                } else if (parts[0].equals("deadline")) {
-                    try {
-                        task = new Deadline(parts[1]);
-                    } catch (DeadlineArgsException e) {
-                        System.out.println(e.getMessage());
+                }
+
+                switch (parts[0]) {
+                    case "todo" -> task = new ToDo(parts[1]);
+                    case "deadline" -> {
+                        try {
+                            task = new Deadline(parts[1]);
+                        } catch (DeadlineArgsException e) {
+                            System.out.println(e.getMessage());
+                            continue;
+                        }
+                    }
+                    case "event" -> {
+                        try {
+                            task = new Event(parts[1]);
+                        } catch (EventArgsException e) {
+                            System.out.println(e.getMessage());
+                            continue;
+                        }
+                    }
+                    default -> {
+                        System.out.println("Unknown command. Please use 'todo', 'deadline', or 'event'.");
                         continue;
                     }
-                } else if (parts[0].equals("event")) {
-                    try {
-                        task = new Event(parts[1]);
-                    } catch (EventArgsException e) {
-                        System.out.println(e.getMessage());
-                        continue;
-                    }
-                } else {
-                    System.out.println("Unknown command. Please use 'todo', 'deadline', or 'event'.");
-                    continue;
                 }
                 tasks.add(task);
                 System.out.println("Got it. I've added this task:");
