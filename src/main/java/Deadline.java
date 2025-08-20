@@ -2,7 +2,11 @@ public class Deadline extends Task {
     private String by;
     public Deadline(String desc) {
         super(parseDesc(desc));
-        this.by = desc.split("/by", 2)[1].trim();
+        String[] parts= desc.split("/by", 2);
+        if (parts.length < 2) {
+            throw new DeadlineArgsException("The deadline cannot be empty... it must have the 'by' part.");
+        }
+        this.by = parts[1].trim();
 
     }
 
