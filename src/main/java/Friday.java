@@ -19,8 +19,7 @@ public class Friday {
             } else if (input.toLowerCase().equals("list")) {
                 System.out.println("Here are your tasks: ");
                 for (int i = 0; i < tasks.size(); i++) {
-                    String status = tasks.get(i).IsDone() ? "[X]" : "[ ]";
-                    System.out.println((i + 1) + ". " + status + " " + tasks.get(i).getDesc());
+                    System.out.println((i + 1) + ". " + tasks.get(i));
                 }
             }  else if (input.contains("unmark")) {
                 String[] parts = input.split(" ");
@@ -59,8 +58,25 @@ public class Friday {
 
             } else {
                 System.out.println(input);
-                Task task = new Task(input);
+                String[] parts = input.split(" ", 2);
+                Task task;
+                if (parts.length < 2) {
+                    System.out.println("Please provide a valid task description.");
+                    continue;
+                } else if (parts[0].equals("todo")) {
+                    task = new ToDo(parts[1]);
+                } else if (parts[0].equals("deadline")) {
+                    task = new Deadline(parts[1]);
+                } else if (parts[0].equals("event")) {
+                    task = new Event(parts[1]);
+                } else {
+                    System.out.println("Unknown command. Please use 'todo', 'deadline', or 'event'.");
+                    continue;
+                }
                 tasks.add(task);
+                System.out.println("Got it. I've added this task: ");
+                System.out.println(task);
+                System.out.println("Now you have " + tasks.size() + " task(s) in the list.");
             }
         }
         scanner.close();
