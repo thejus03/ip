@@ -1,3 +1,5 @@
+package friday;
+
 public enum Command {
     BYE, TODO, DEADLINE, EVENT, LIST, DELETE, MARK, UNMARK;
 

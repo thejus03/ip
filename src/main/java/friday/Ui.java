@@ -1,4 +1,6 @@
-import task.*;
+package friday;
+
+import friday.task.Task;
 
 import java.util.Scanner;
 
@@ -18,9 +20,9 @@ public class Ui {
         Parser parser = new Parser(this);
 
         System.out.println("-".repeat(50));
-        System.out.println("Hello! I'm Friday");
+        System.out.println("Hello! I'm friday.Friday");
         System.out.println("What can I do for you?");
-        System.out.println("You have " + this.getTaskCount() + " task(s) in the list.");
+        System.out.println("You have " + this.getTaskCount() + " friday.task(s) in the list.");
 
         while (this.isRunning) {
             System.out.println("-".repeat(50));

@@ -1,4 +1,6 @@
-import task.*;
+package friday;
+
+import friday.task.*;
 
 public class Parser {
     private final Ui ui;

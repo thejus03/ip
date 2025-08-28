@@ -1,4 +1,4 @@
-package task;
+package friday.task;
 
 abstract public class Task {
     private String desc;

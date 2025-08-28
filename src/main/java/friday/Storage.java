@@ -1,7 +1,6 @@
-import task.Deadline;
-import task.Event;
-import task.Task;
-import task.ToDo;
+package friday;
+
+import friday.task.*;
 
 import java.io.File;
 import java.io.FileWriter;

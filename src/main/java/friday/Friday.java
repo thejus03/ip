@@ -1,3 +1,5 @@
+package friday;
+
 public class Friday {
     private final Ui ui;
 

@@ -1,4 +1,6 @@
-import task.Task;
+package friday;
+
+import friday.task.Task;
 
 import java.util.List;
 

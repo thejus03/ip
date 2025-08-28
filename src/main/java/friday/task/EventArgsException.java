@@ -1,4 +1,4 @@
-package task;
+package friday.task;
 
 public class EventArgsException extends RuntimeException{
     public EventArgsException(String message) {
