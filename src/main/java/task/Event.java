@@ -1,20 +1,30 @@
-public class Event extends Task  {
+package task;
+
+public class Event extends Task {
     private String from;
     private String to;
+    private String desc;
+
     public Event(String desc) {
         super(Event.parseDesc(desc));
+        this.desc = desc;
         String[] parts = desc.split("/from", 2);
         if (parts.length < 2) {
-            throw new EventArgsException("Event description must include '/from' and '/to' parts.");
+            throw new EventArgsException("task.Event description must include '/from' and '/to' parts.");
         }
         String description = parts[0].trim();
         String[] partsFromTo = parts[1].split("/to", 2);
         if (partsFromTo.length < 2) {
-            throw new EventArgsException("Event description must include '/to' part.");
+            throw new EventArgsException("task.Event description must include '/to' part.");
         }
 
         this.from = partsFromTo[0].trim();
         this.to=  partsFromTo[1].trim();
+    }
+
+    @Override
+    public String getFullDesc() {
+        return this.desc;
     }
 
     @Override
