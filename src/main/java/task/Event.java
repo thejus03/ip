@@ -1,5 +1,9 @@
 package task;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class Event extends Task {
     private String from;
     private String to;
@@ -18,8 +22,8 @@ public class Event extends Task {
             throw new EventArgsException("task.Event description must include '/to' part.");
         }
 
-        this.from = partsFromTo[0].trim();
-        this.to=  partsFromTo[1].trim();
+        this.from = parseTime(partsFromTo[0].trim());
+        this.to = parseTime(partsFromTo[1].trim());
     }
 
     @Override
@@ -41,5 +45,14 @@ public class Event extends Task {
     public static String parseDesc(String desc) {
         String[] parts = desc.split("/from", 2);
         return parts[0].trim();
+    }
+
+    public static String parseTime(String time) {
+        try {
+            LocalDate date = LocalDate.parse(time);
+            return date.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+        } catch (DateTimeParseException e) {
+            return time;
+        }
     }
 }
