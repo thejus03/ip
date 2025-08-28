@@ -1,3 +1,5 @@
+package task;
+
 abstract public class Task {
     private String desc;
     private Boolean isDone;
@@ -8,6 +10,10 @@ abstract public class Task {
     }
 
     public String getDesc() {
+        return desc;
+    }
+
+    public String getFullDesc() {
         return desc;
     }
 
