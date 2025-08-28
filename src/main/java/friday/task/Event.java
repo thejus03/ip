@@ -1,4 +1,4 @@
-package task;
+package friday.task;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -14,12 +14,12 @@ public class Event extends Task {
         this.desc = desc;
         String[] parts = desc.split("/from", 2);
         if (parts.length < 2) {
-            throw new EventArgsException("task.Event description must include '/from' and '/to' parts.");
+            throw new EventArgsException("friday.task.Event description must include '/from' and '/to' parts.");
         }
         String description = parts[0].trim();
         String[] partsFromTo = parts[1].split("/to", 2);
         if (partsFromTo.length < 2) {
-            throw new EventArgsException("task.Event description must include '/to' part.");
+            throw new EventArgsException("friday.task.Event description must include '/to' part.");
         }
 
         this.from = parseTime(partsFromTo[0].trim());
