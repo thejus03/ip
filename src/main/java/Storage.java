@@ -1,4 +1,7 @@
-package task;
+import task.Deadline;
+import task.Event;
+import task.Task;
+import task.ToDo;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -7,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class TaskReader {
+public class Storage {
     private static final String filePath = System.getProperty("user.dir") + "/src/main/data/Friday.txt";
 
     public static List<Task> readFile() {
         try {
-            File f = new File(TaskReader.filePath);
+            File f = new File(Storage.filePath);
             if (!f.exists()) {
                 return new ArrayList<>();
             }
@@ -49,11 +52,11 @@ public class TaskReader {
         int tries = 0;
         while (tries < maxTries) {
             try {
-                File f = new File(TaskReader.filePath);
+                File f = new File(Storage.filePath);
                 if (!f.getParentFile().exists()) {
                     f.getParentFile().mkdirs();
                 }
-                try (FileWriter writer = new FileWriter(TaskReader.filePath)) {
+                try (FileWriter writer = new FileWriter(Storage.filePath)) {
                     for (Task task : tasks) {
                         String taskType = task.getTypeofTask();
                         String isDone = task.IsDone() ? "1" : "0";
