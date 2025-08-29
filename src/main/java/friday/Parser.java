@@ -34,6 +34,21 @@ public class Parser {
                 }
 
             }
+            case FIND -> {
+                String[] parts = input.split(" ");
+                if (parts.length < 2) {
+                    System.out.println("Please specify the keyword to find");
+                    return;
+                }
+
+                String keyword = parts[1].trim();
+                TaskList matchedTasks = this.ui.find(keyword);
+                System.out.println("Here are the matching tasks in your list:");
+                for (int i = 0; i < matchedTasks.count(); i++) {
+                    System.out.println((i + 1) + ". " + matchedTasks.get(i));
+                }
+
+            }
             case UNMARK, MARK, DELETE -> {
                 String[] parts = input.split(" ");
                 if (parts.length < 2) {
