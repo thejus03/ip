@@ -1,13 +1,16 @@
 package friday;
 
-import friday.task.*;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import friday.task.Deadline;
+import friday.task.Event;
+import friday.task.Task;
+import friday.task.ToDo;
 
 public class Storage {
     private static final String filePath = System.getProperty("user.dir") + "/src/main/data/Friday.txt";

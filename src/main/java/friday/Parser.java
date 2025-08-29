@@ -1,6 +1,11 @@
 package friday;
 
-import friday.task.*;
+import friday.task.Deadline;
+import friday.task.DeadlineArgsException;
+import friday.task.Event;
+import friday.task.EventArgsException;
+import friday.task.Task;
+import friday.task.ToDo;
 
 public class Parser {
     private final Ui ui;
