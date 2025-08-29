@@ -1,7 +1,7 @@
 package friday;
 
 public enum Command {
-    BYE, TODO, DEADLINE, EVENT, LIST, DELETE, MARK, UNMARK;
+    BYE, TODO, DEADLINE, EVENT, LIST, DELETE, MARK, UNMARK, FIND;
 
     public static Command getCommand(String input) {
         if (input.toLowerCase().equals("bye")) return Command.BYE;
@@ -12,6 +12,7 @@ public enum Command {
         if (input.toLowerCase().startsWith("delete")) return Command.DELETE;
         if (input.toLowerCase().startsWith("mark")) return Command.MARK;
         if (input.toLowerCase().startsWith("unmark")) return Command.UNMARK;
+        if (input.toLowerCase().startsWith("find")) return Command.FIND;
         throw new IllegalArgumentException("Unknown command: " + input);
     }
 }

@@ -1,6 +1,11 @@
 package friday;
 
-import friday.task.*;
+import friday.task.Deadline;
+import friday.task.DeadlineArgsException;
+import friday.task.Event;
+import friday.task.EventArgsException;
+import friday.task.Task;
+import friday.task.ToDo;
 
 public class Parser {
     private final Ui ui;
@@ -17,6 +22,21 @@ public class Parser {
                 System.out.println("Here are your tasks:");
                 for (int i = 0; i < this.ui.getTaskCount(); i++) {
                     System.out.println((i + 1) + ". " + this.ui.getTask(i));
+                }
+
+            }
+            case FIND -> {
+                String[] parts = input.split(" ");
+                if (parts.length < 2) {
+                    System.out.println("Please specify the keyword to find");
+                    return;
+                }
+
+                String keyword = parts[1].trim();
+                TaskList matchedTasks = this.ui.find(keyword);
+                System.out.println("Here are the matching tasks in your list:");
+                for (int i = 0; i < matchedTasks.count(); i++) {
+                    System.out.println((i + 1) + ". " + matchedTasks.get(i));
                 }
 
             }
