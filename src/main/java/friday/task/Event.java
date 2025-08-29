@@ -9,6 +9,7 @@ public class Event extends Task {
     private String to;
     private String desc;
 
+    // Constructor
     public Event(String desc) {
         super(Event.parseDesc(desc));
         this.desc = desc;
@@ -42,11 +43,21 @@ public class Event extends Task {
                " (from: " + this.from + " to: " + this.to + ")";
     }
 
+    /**
+     *
+     * @param desc
+     * @return String description without the '/from' and '/by' parts
+     */
     public static String parseDesc(String desc) {
         String[] parts = desc.split("/from", 2);
         return parts[0].trim();
     }
 
+    /**
+     *
+     * @param time
+     * @return String formatted date if input is in YYYY-MM-DD format, else return input as is
+     */
     public static String parseTime(String time) {
         try {
             LocalDate date = LocalDate.parse(time);
