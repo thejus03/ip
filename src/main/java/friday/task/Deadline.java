@@ -5,8 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Deadline extends Task {
-    private String by;
-    private String desc;
+    private final String by;
+    private final String desc;
     public Deadline(String desc) {
         super(parseDesc(desc));
         this.desc = desc;
