@@ -4,10 +4,19 @@ import friday.task.*;
 
 public class Parser {
     private final Ui ui;
+
+    /**
+     * Constructor
+     * @param ui
+     */
     public Parser(Ui ui) {
         this.ui = ui;
     }
 
+    /**
+     * Parses the input command and executes the corresponding action
+     * @param input
+     */
     public void parse(String input) {
         Command cmd = Command.getCommand(input);
 

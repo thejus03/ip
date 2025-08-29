@@ -33,11 +33,21 @@ public class Deadline extends Task {
         return getTypeofTask() + " " + getStatusIcon() + " " + getDesc() + " (by: " + this.by + ")";
     }
 
+    /**
+     *
+     * @param  desc
+     * @return String description without the '/by' part
+     */
     public static String parseDesc(String desc) {
         String[] parts = desc.split("/by", 2);
         return parts[0].trim();
     }
 
+    /**
+     *
+     * @param by
+     * @return String formatted date if input is in YYYY-MM-DD format, else return input as is
+     */
     public static String parseTime(String by) {
         try {
             LocalDate date = LocalDate.parse(by);

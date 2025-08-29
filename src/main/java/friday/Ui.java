@@ -16,6 +16,9 @@ public class Ui {
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Starts Friday's UI interactions
+     */
     public void start() {
         Parser parser = new Parser(this);
 
@@ -33,22 +36,43 @@ public class Ui {
         }
     }
 
+    /**
+     * Returns the number of tasks in the task list
+     * @return
+     */
     public Integer getTaskCount() {
         return this.tasks.count();
     }
 
+    /**
+     * Returns the task at the given index
+     * @param index
+     * @return
+     */
     public Task getTask(int index) {
         return this.tasks.get(index);
     }
 
+    /**
+     * Adds a task to the task list
+     * @param task
+     */
     public void addTask(Task task) {
         this.tasks.add(task);
     }
 
+    /**
+     * Deletes a task from the task list
+     * @param index
+     * @return
+     */
     public Task deleteTask(int index) {
         return this.tasks.delete(index);
     }
 
+    /**
+     * Stops Friday's UI interactions
+     */
     public void stop() {
         this.scanner.close();
         this.isRunning = false;

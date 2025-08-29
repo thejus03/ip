@@ -12,6 +12,10 @@ import java.util.Scanner;
 public class Storage {
     private static final String filePath = System.getProperty("user.dir") + "/src/main/data/Friday.txt";
 
+    /**
+     * Reads tasks from the file and returns a list of tasks
+     * @return
+     */
     public static List<Task> readFile() {
         try {
             File f = new File(Storage.filePath);
@@ -46,6 +50,10 @@ public class Storage {
         }
     }
 
+    /**
+     * Saves the list of tasks to the file
+     * @param tasks
+     */
     public static void saveToFile(List<Task> tasks) {
         final int maxTries = 3;
         int tries = 0;
