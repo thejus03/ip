@@ -1,9 +1,10 @@
-import friday.task.Deadline;
-import friday.task.DeadlineArgsException;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.Test;
+
+import friday.task.Deadline;
+import friday.task.DeadlineArgsException;
 
 class DeadlineTest {
     @Test

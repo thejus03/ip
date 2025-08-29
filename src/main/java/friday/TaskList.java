@@ -1,8 +1,8 @@
 package friday;
 
-import friday.task.Task;
-
 import java.util.List;
+
+import friday.task.Task;
 
 public class TaskList {
     private final List<Task> tasks;

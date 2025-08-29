@@ -1,8 +1,8 @@
 package friday;
 
-import friday.task.Task;
-
 import java.util.Scanner;
+
+import friday.task.Task;
 
 public class Ui {
 

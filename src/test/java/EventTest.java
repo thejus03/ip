@@ -1,9 +1,10 @@
-import friday.task.EventArgsException;
-import org.junit.jupiter.api.Test;
-import friday.task.Event;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.Test;
+
+import friday.task.Event;
+import friday.task.EventArgsException;
 
 public class EventTest {
 
