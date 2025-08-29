@@ -50,7 +50,7 @@ public class Ui {
     }
 
     public void stop() {
-        scanner.close();
+        this.scanner.close();
         this.isRunning = false;
         this.tasks.save();
         System.out.println("Bye. Hope to see you again soon!");
