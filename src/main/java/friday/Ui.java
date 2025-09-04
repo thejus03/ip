@@ -9,18 +9,19 @@ public class Ui {
     private Scanner scanner;
     private TaskList tasks;
     private boolean isRunning;
+    private Parser parser;
 
     public Ui() {
         this.isRunning = true;
         this.tasks = new TaskList();
         this.scanner = new Scanner(System.in);
+        this.parser = new Parser(this);
     }
 
     /**
      * Starts Friday's UI interactions
      */
     public void start() {
-        Parser parser = new Parser(this);
 
         System.out.println("-".repeat(50));
         System.out.println("Hello! I'm Friday");
@@ -34,6 +35,10 @@ public class Ui {
             System.out.println("-".repeat(50));
             parser.parse(input);
         }
+    }
+
+    public String getResponse(String input) {
+        return parser.parse(input);
     }
 
     /**

@@ -8,17 +8,9 @@ public class Friday {
     }
 
     /**
-     * Starts the Friday application
+     * Generates a response for the user's chat message.
      */
-    public void run() {
-        ui.start();
-    }
-
-    /**
-     * Main entry point to start the application
-     * @param args
-     */
-    public static void main(String[] args) {
-        new Friday().run();
+    public String getResponse(String input) {
+        return ui.getResponse(input);
     }
 }
