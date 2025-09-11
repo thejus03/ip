@@ -8,124 +8,140 @@ import friday.task.Task;
 import friday.task.ToDo;
 
 public class Parser {
-    private final Ui ui;
+        private static final String TASK_NUMBER_PROMPT = "Please also specify the task number.\n";
+        private static final String INVALID_TASK_NUMBER = "Ah... This task number does not exist!\n";
+        private static final String INVALID_DESCRIPTION = "Please provide a valid task description.\n";
 
-    /**
-     * Constructor
-     * @param ui
-     */
-    public Parser(Ui ui) {
-        this.ui = ui;
-    }
+        private final Ui ui;
 
-    /**
-     * Parses the input command and executes the corresponding action
-     * @param input
-     */
-    public String parse(String input) {
-        assert input != null : "Input command should not be null";
-
-        Command cmd = Command.getCommand(input);
-        assert cmd != null : "Parsed command should not be null";
-
-        String out = "";
-        switch (cmd) {
-        case BYE -> this.ui.stop();
-        case LIST -> {
-            out += "Here are your tasks:\n";
-            for (int i = 0; i < this.ui.getTaskCount(); i++) {
-                out += (i + 1) + ". " + this.ui.getTask(i) + "\n";
-            }
+        public Parser(Ui ui) {
+                assert ui != null : "UI instance cannot be null";
+                this.ui = ui;
         }
-        case FIND -> {
-            String[] parts = input.split(" ");
-            if (parts.length < 2) {
-                out += "Please specify the keyword to find";
-                return out;
-            }
 
-            String keyword = parts[1].trim();
-            TaskList matchedTasks = this.ui.find(keyword);
-            out += "Here are the matching tasks in your list:\n";
-            for (int i = 0; i < matchedTasks.count(); i++) {
-                System.out.println((i + 1) + ". " + matchedTasks.get(i));
-                out += (i + 1) + ". " + matchedTasks.get(i) + "\n";
-            }
+        /**
+         * Parses the user input and executes the corresponding command.
+         * @param input The user input string.
+         * @return The response string after executing the command.
+         */
+
+        public String parse(String input) {
+                assert input != null : "Input string cannot be null";
+                assert !input.trim().isEmpty() : "Input string cannot be empty";
+
+                Command cmd = Command.getCommand(input);
+                assert cmd != null : "Command cannot be null";
+
+                return switch (cmd) {
+                        case BYE -> handleBye();
+                        case LIST -> handleList();
+                        case FIND -> handleFind(input);
+                        case UNMARK, MARK, DELETE -> handleTaskStateChange(cmd, input);
+                        case TODO, DEADLINE, EVENT -> handleTaskCreation(cmd, input);
+                };
         }
-        case UNMARK, MARK, DELETE -> {
-            String[] parts = input.split(" ");
-            if (parts.length < 2) {
-                System.out.println("Please also specify the task number.");
-                out += "Please also specify the task number.\n";
-                return out;
-            }
-            try {
-                int taskNumber = Integer.parseInt(parts[1]) - 1;
-                if (taskNumber < 0 || taskNumber >= this.ui.getTaskCount()) {
-                    System.out.println("Ah... This task number does not exist!");
-                    out += "Ah... This task number does not exist!\n";
-                } else {
-                    if (cmd == Command.UNMARK) {
-                        this.ui.getTask(taskNumber).markAsNotDone();
-                        System.out.println("OK, I've marked this task as not done: " + this.ui.getTask(taskNumber));
-                        out += "OK, I've marked this task as not done: " + this.ui.getTask(taskNumber) + "\n";
-                    } else if (cmd == Command.MARK) {
-                        this.ui.getTask(taskNumber).markAsDone();
-                        System.out.println("Nice! I've marked this task as done: " + this.ui.getTask(taskNumber));
-                        out += "Nice! I've marked this task as done: " + this.ui.getTask(taskNumber) + "\n";
-                    } else { // cmd == Command.DELETE
-                        Task removedTask = this.ui.deleteTask(taskNumber);
-                        System.out.println("Noted. I've removed this task: " + removedTask);
-                        System.out.println("Now you have " + this.ui.getTaskCount() + " task(s) in the list.");
-                        out += "Noted. I've removed this task: " + removedTask + "\n";
-                        out += "Now you have " + this.ui.getTaskCount() + " task(s) in the list.\n";
-                    }
+
+        private String handleBye() {
+                this.ui.stop();
+                return "";
+        }
+
+        /**
+         * Creates a string representation of the task list.
+         * */
+        private String handleList() {
+                StringBuilder out = new StringBuilder("Here are your tasks:\n");
+                for (int i = 0; i < this.ui.getTaskCount(); i++) {
+                        out.append(i + 1).append(". ").append(this.ui.getTask(i)).append("\n");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid task number.");
-                out += "Please enter a valid task number.\n";
-            }
+                return out.toString();
         }
-        case TODO, DEADLINE, EVENT -> {
-            String[] parts = input.split(" ", 2);
-            Task task;
-            if (parts.length < 2) {
-                System.out.println("Please provide a valid task description.");
-                out += "Please provide a valid task description.\n";
-                return out;
-            }
 
-            switch (cmd) {
-            case TODO -> task = new ToDo(parts[1]);
-            case DEADLINE -> {
+        /**
+         * Finds tasks containing the specified keyword
+         * */
+        private String handleFind(String input) {
+                String[] parts = input.split(" ");
+                if (parts.length < 2) {
+                        return "Please specify the keyword to find";
+                }
+
+                String keyword = parts[1].trim();
+                TaskList matchedTasks = this.ui.find(keyword);
+                StringBuilder out = new StringBuilder("Here are the matching tasks in your list:\n");
+                for (int i = 0; i < matchedTasks.count(); i++) {
+                        out.append(i + 1).append(". ").append(matchedTasks.get(i)).append("\n");
+                }
+                return out.toString();
+        }
+
+        private String handleTaskStateChange(Command cmd, String input) {
+                String[] parts = input.split(" ");
+                if (parts.length < 2) {
+                        return TASK_NUMBER_PROMPT;
+                }
+
                 try {
-                    task = new Deadline(parts[1]);
-                } catch (DeadlineArgsException e) {
-                    System.out.println(e.getMessage());
-                    return out;
+                        int taskNumber = Integer.parseInt(parts[1]) - 1;
+                        if (!isValidTaskIndex(taskNumber)) {
+                                return INVALID_TASK_NUMBER;
+                        }
+                        return executeTaskStateChange(cmd, taskNumber);
+                } catch (NumberFormatException e) {
+                        return "Please enter a valid task number.\n";
                 }
-            }
-            case EVENT -> {
-                try {
-                    task = new Event(parts[1]);
-                } catch (EventArgsException e) {
-                    System.out.println(e.getMessage());
-                    return out;
-                }
-            }
-            default -> {
-                System.out.println("Unknown command. Please use 'todo', 'deadline', or 'event'.");
-                out += "Unknown command. Please use 'todo', 'deadline', or 'event'.\n";
-                return out;
-            }
-            }
+        }
 
-            this.ui.addTask(task);
-            out += "Got it. I've added this task:\n";
-            out += task + "\n";
-            out += "Now you have " + this.ui.getTaskCount() + " task(s) in the list.\n";
+        private boolean isValidTaskIndex(int index) {
+                return index >= 0 && index < this.ui.getTaskCount();
         }
+
+        private String executeTaskStateChange(Command cmd, int taskNumber) {
+                Task task = this.ui.getTask(taskNumber);
+                return switch (cmd) {
+                        case UNMARK -> {
+                                task.markAsNotDone();
+                                yield "OK, I've marked this task as not done: " + task + "\n";
+                        }
+                        case MARK -> {
+                                task.markAsDone();
+                                yield "Nice! I've marked this task as done: " + task + "\n";
+                        }
+                        case DELETE -> {
+                                Task removedTask = this.ui.deleteTask(taskNumber);
+                                yield String.format("Noted. I've removed this task: %s\nNow you have %d task(s) in the list.\n",
+                                        removedTask, this.ui.getTaskCount());
+                        }
+                        default -> "";
+                };
         }
-        return out;
-    }
+
+        private String handleTaskCreation(Command cmd, String input) {
+                String[] parts = input.split(" ", 2);
+                if (parts.length < 2) {
+                        return INVALID_DESCRIPTION;
+                }
+
+                try {
+                        Task task = createTask(cmd, parts[1]);
+                        if (task == null) {
+                                return "Unknown command. Please use 'todo', 'deadline', or 'event'.\n";
+                        }
+
+                        this.ui.addTask(task);
+                        return String.format("Got it. I've added this task:\n%s\nNow you have %d task(s) in the list.\n",
+                                task, this.ui.getTaskCount());
+                } catch (DeadlineArgsException | EventArgsException e) {
+                        return e.getMessage();
+                }
+        }
+
+        private Task createTask(Command cmd, String description) {
+                return switch (cmd) {
+                        case TODO -> new ToDo(description);
+                        case DEADLINE -> new Deadline(description);
+                        case EVENT -> new Event(description);
+                        default -> null;
+                };
+        }
 }
