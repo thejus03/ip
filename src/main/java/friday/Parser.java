@@ -23,7 +23,11 @@ public class Parser {
      * @param input
      */
     public String parse(String input) {
+        assert input != null : "Input command should not be null";
+
         Command cmd = Command.getCommand(input);
+        assert cmd != null : "Parsed command should not be null";
+
         String out = "";
         switch (cmd) {
         case BYE -> this.ui.stop();
